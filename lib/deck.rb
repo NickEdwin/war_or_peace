@@ -1,3 +1,6 @@
+require './lib/card'
+require 'pry'
+
 class Deck
   attr_reader :cards
 
@@ -7,30 +10,27 @@ class Deck
 
   def rank_of_card_at(index)
     @cards[index].rank
-  end
+    end
 
   def high_ranking_cards
     high_rank = []
-    cards.each do |cards|
-      if cards.rank >= 11
-        high_rank << cards
+    @cards.each do |card|
+      if card.rank >= 11
+        high_rank << card
       end
     end
+    high_rank
   end
 
   def percent_high_ranking
-    cards.each do |card|
-      if card.rank >= 11
-        ( cards / card.sum )
-      end
+    (high_ranking_cards.count.to_f / cards.count).round(4) *100
   end
 
   def remove_card
-    deck.shift
+    cards.shift
   end
 
-  def add_card
-    deck.push
+  def add_card(new_card)
+    @cards << new_card
   end
-end
 end
