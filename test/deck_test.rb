@@ -18,7 +18,7 @@ class DeckTest < Minitest::Test
 
   def test_it_exists
     deck = @deck
-
+ 
     assert_instance_of Deck, @deck
   end
 
