@@ -23,10 +23,10 @@ class Turn
   def turn_type
     if @player1.deck.cards[0].rank != @player2.deck.cards[0].rank
       @type = :basic
-    elsif @player1.deck.cards[0].rank == @player2.deck.cards[0].rank
-      @type = :war
-    else @player1.deck.cards[0].rank == @player2.deck.cards[0].rank && @player1.deck.cards[2].rank == @player2.deck.cards[2].rank.rank
+    elsif @player1.deck.cards[0].rank == @player2.deck.cards[0].rank && @player1.deck.cards[2].rank == @player2.deck.cards[2].rank
       @type = :mutually_assured_destruction
+    else @player1.deck.cards[0].rank == @player2.deck.cards[0].rank
+      @type = :war
     end
   end
 
@@ -49,16 +49,13 @@ class Turn
   end
 
   def pile_cards
-    if :basic then
+    if @type == :basic
       @spoils_of_war << @player1.deck.cards.shift
       @spoils_of_war << @player2.deck.cards.shift
-    elsif :war
-      @spoils_of_war << @player1.deck.cards.slice(0..2)
-      @spoils_of_war << @player2.deck.cards.slice(0..2)
-      @spoils_of_war.flatten!
+    elsif @type == :war
+      @spoils_of_war = @player1.deck.cards.slice!(0..2) + player2.deck.cards.slice!(0..2)
     elsif :mutually_assured_destruction
-      @player1.deck.cards.slice(0..2)
-      @player2.deck.cards.slice(0..2)
+      @player1.deck.cards.slice!(0..2) + @player2.deck.cards.slice!(0..2)
     end
   end
 
